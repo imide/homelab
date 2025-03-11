@@ -1,0 +1,10 @@
+[env]
+SOPS_AGE_KEY_FILE = "{{config_root}}/age.key"
+ROOT_DIR = "{{config_root}}"
+
+[tools]
+"aqua:FiloSottile/age" = "1.2.1"
+"aqua:getsops/sops" = "3.9.4"
+"aqua:go-task/task" = "3.42.0"
+"aqua:cloudflare/cloudflared" = "2025.2.1"
+"aqua:jqlang/jq" = "1.7.1"

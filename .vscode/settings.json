@@ -1,0 +1,8 @@
+{
+  "yaml.schemas": {
+    "https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json": [
+      "file:///Users/zach/homelab/active/network/cloudflare.compose.yaml",
+      "file:///Users/zach/homelab/active/network/traefik.compose.yaml"
+    ]
+  }
+}
