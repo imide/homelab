@@ -1,63 +1,49 @@
 services:
-  reverse-proxy:
-    image: traefik:v3.3.4
-    command:
-      - "--log"
-      - "--log.level=${LOG_LEVEL:-INFO}"
-      - "--log.format=json"
-      - "--api.insecure=true"
-      - "--providers.docker"
-      - "--providers.docker.exposedbydefault=false"
-      - "--serversTransport.insecureSkipVerify=true" # Allow self-signed certificates for target hosts - https://doc.traefik.io/traefik/routing/overview/#insecureskipverify
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
-      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
-      - "--entrypoints.websecure.address=:443"
-      - "--entrypoints.websecure.http.tls=true"
-      - "--entrypoints.websecure.http.tls.certresolver=letsencrypt"
-      - "--certificatesresolvers.letsencrypt.acme.email=<YOUR EMAIL>"
-      - "--certificatesresolvers.letsencrypt.acme.storage=/etc/traefik/acme/letsencrypt.json"
-      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.provider=cloudflare"
-      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.delaybeforecheck=300"
-      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=8.8.8.8:53"
-    secrets:
-      - cf_token
-    environment:
-      - CLOUDFLARE_DNS_API_TOKEN_FILE=/run/secrets/cf_token
-      - CLOUDFLARE_HTTP_TIMEOUT=${HTTP_TIMEOUT}
-      - CLOUDFLARE_POLLING_INTERVAL=${POLLING_INTERVAL}
-      - CLOUDFLARE_PROPAGATION_TIMEOUT=${PROPAGATION_TIMEOUT}
-      - CLOUDFLARE_TTL=${TTL}
-    deploy:
-      placement:
-        constraints:
-          - node.role == manager
-      labels:
-        - traefik.enable=true
-
-        - traefik.http.routers.api.rule=Host(`traefik.${ROOT_DOMAIN}`)
-        - traefik.http.routers.api.service=api@internal
-        - traefik.http.routers.api.entrypoints=websecure
-        - traefik.http.routers.api.tls=true
-
-        - traefik.http.services.api.loadbalancer.server.port=8080
+  traefik:
+    image: traefik:v3.3
+    container_name: traefik
+    restart: always
     ports:
-      # HTTP
-      - target: 80
-        published: 80
-
-      # HTTPS
-      - target: 443
-        published: 443
-        
-      # Web UI (enabled by --api.insecure=true)
-      - target: 8080
-        published: 8080
+      - 80:80/tcp # http
+      - 443:443/tcp # https
+      - 443:443/udp # https http3 quic
+      - 127.0.0.1:8080:8080 # http api dashboard
+    expose:
+      - 80 # http
+      - 443 # https
+      - 8080 # http api dashboard
+    volumes:
+      #- /var/run/docker.sock:/var/run/docker.sock:ro # better use socket-proxy instead
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/traefik:/etc/traefik/ # put the provided traefik.yml and fileConfig.yml files at this location
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/traefik/logs:/logs
+    environment:
+      - TZ=${TIMEZONE:-America/Denver}
+      - CF_DNS_API_TOKEN=${CLOUDFLARE_DNS_API_TOKEN} # change this if you use Cloudflare
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.api.rule=Host(`traefik.${SECRET_DOMAIN:-example.com}`) # Define the subdomain for the traefik dashboard.
+      - traefik.http.routers.api.service=api@internal # Enable Traefik API.
+      - traefik.http.routers.api.middlewares=local-ipwhitelist@file,basic-auth@file # protect dashboard with basic auth and restrict access to private class subnets only
+      #- traefik.http.middlewares.basic-auth-global.basicauth.users=admin:$$apr1$$epoKf5li$$QfTMJZOCS/halv3CiIUEu0 # protect the traefik dashboard by basic auth (pw=password)
+    extra_hosts:
+      - host.docker.internal:172.17.0.1
+    security_opt:
+      - no-new-privileges:true      
     networks:
       - traefik
-      - internal
+      - docker-proxynet
+
+  socket-proxy:
+    image: lscr.io/linuxserver/socket-proxy:1.26.2
+    container_name: socket-proxy
+    environment:
+      - CONTAINERS=1
+      - EVENTS=1
     volumes:
-      # So that Traefik can listen to the Docker events
-      - /var/run/docker.sock:/var/run/docker.sock
-      - acme:/etc/traefik/acme
-      - traefik:/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - docker-proxynet
+    restart: always
+    read_only: true
+    tmpfs:
+      - /run

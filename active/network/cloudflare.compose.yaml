@@ -7,4 +7,4 @@ services:
     networks:
       - traefik
     environment:
-      TUNNEL_TOKEN: ${TUNNEL_TOKEN}
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}

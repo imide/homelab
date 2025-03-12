@@ -1,6 +1,4 @@
 # Secrets
 *.pub
 *.key
-*.decrypted~*.yaml
-/age.key
-/active/network/cloudflare-tunnel.json
+.env
