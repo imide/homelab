@@ -1,0 +1,43 @@
+services:
+  cloudflared:
+    container_name: cloudflared-tunnel
+    image: cloudflare/cloudflared:2025.2.1
+    restart: unless-stopped
+    command: tunnel run
+    networks:
+      - traefik
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}
+    
+  cf-companion:
+      container_name: cf-companion
+      image: tiredofit/traefik-cloudflare-companion:7.3.3
+      environment:
+        - TIMEZONE=${TIMEZONE}
+
+        - LOG_TYPE=CONSOLE
+        - LOG_LEVEL=INFO
+
+        - TRAEFIK_VERSION=3
+        - RC_TYPE=CNAME
+
+        - TARGET_DOMAIN=${SECRET_DOMAIN}
+        - REFRESH_ENTRIES=TRUE
+
+        - TRAEFIK_VERSION=2
+        - ENABLE_TRAEFIK_POLL=TRUE
+        - TRAEFIK_POLL_URL=https://traefik.${SECRET_DOMAIN}/api
+        - TRAEFIK_FILTER_LABEL=traefik.constraint
+        - TRAEFIK_FILTER=proxy-public
+
+        - DOMAIN1=${SECRET_DOMAIN}
+        - DOMAIN1_ZONE_ID=${CLOUDFLARE_ZONE_ID}
+        - DOMAIN1_PROXIED=TRUE
+
+        - DOCKER_HOST=tcp://socket-proxy:2375
+      restart: always
+      networks:
+        - traefik
+        - docker-proxynet
+        
+

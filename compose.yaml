@@ -1,9 +1,14 @@
 include:
   - $ROOT_DIR/active/network/traefik.compose.yaml
-  - $ROOT_DIR/active/network/cloudflare.compose.yaml
+  - $ROOT_DIR/active/network/newt.compose.yaml
+  - $ROOT_DIR/active/network/whoami.compose.yaml
+
+  - $ROOT_DIR/active/security/socket-proxy.compose.yaml
 
 networks:
   traefik:
     external: true
   docker-proxynet:
     internal: true
+  default:
+    
