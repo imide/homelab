@@ -3,7 +3,27 @@ services:
         image: fosrl/newt
         container_name: newt
         restart: unless-stopped
+        networks:
+            - newt
         environment:
             - PANGOLIN_ENDPOINT=https://pangolin.${SECRET_DOMAIN}
             - NEWT_ID=${NEWT_ID}
             - NEWT_SECRET=${NEWT_SECRET}
+
+    # roll-pangolin:
+    #     image: docker.io/library/roll-pangolin:0.0.1
+    #     container_name: roll-pangolin
+    #     restart: unless-stopped
+    #     depends_on:
+    #         - newt
+    #     environment:
+    #         - EMAIL=${PANGOLIN_EMAIL}
+    #         - PASSWORD=${PANGOLIN_PASSWORD}
+    #         - HOST=pangolin.${SECRET_DOMAIN}
+    #         - ORGANIZATION=${PANGOLIN_ORG}
+    #         - DEFAULT_SITE=${PANGOLIN_DEFAULT_SITE}
+    #         - DOCKER_HOST=tcp://socket-proxy:2375
+
+    #     networks:
+    #         - docker-proxynet
+    #         - newt
