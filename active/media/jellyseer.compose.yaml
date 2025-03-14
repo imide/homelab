@@ -1,0 +1,13 @@
+---
+services:
+  jellyseerr:
+    image: ghcr.io/fallenbagel/jellyseerr:2.5.0
+    container_name: jellyseerr
+    environment:
+      - LOG_LEVEL=info
+      - TZ=${TIMEZONE}
+    volumes:
+      - ${ROOT_DIR}/config/jellyseer:/app/config
+    restart: unless-stopped
+    networks:
+      - newt # Port 5055

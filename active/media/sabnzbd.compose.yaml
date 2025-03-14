@@ -1,0 +1,17 @@
+---
+services:
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:4.4.1
+    container_name: sabnzbd
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TIMEZONE}
+    volumes:
+      - /docker/appdata/sabnzbd:/config
+      - /data/usenet:/data/usenet:rw
+      - /etc/localtime:/etc/localtime:ro
+    # !! TODO: when installed on actual server, do this
+    networks:
+      - newt # port 8080
+    restart: unless-stopped

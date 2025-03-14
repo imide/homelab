@@ -1,0 +1,13 @@
+services:
+  dozzle:
+    container_name: dozzle
+    image: amir20/dozzle:v8.11.9
+    networks:
+      - newt # Port 8080
+      - docker-proxynet
+    environment:
+      - DOZZLE_REMOTE_HOST=tcp://socket-proxy:2375
+      - DOZZLE_TIMEOUT=10s
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped

@@ -1,0 +1,23 @@
+services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:10.10.6
+    container_name: jellyfin
+    runtime: nvidia # Enable if using NVIDIA. Follow https://github.com/linuxserver/docker-jellyfin#nvidia before running.
+    devices:
+    # The following allows for hardware acceleration. If you have a NVIDIA GPU, see https://github.com/linuxserver/docker-jellyfin#nvidia
+      - /dev/dri:/dev/dri # AMD/ATI/Intel GPUs
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TIMEZONE}
+    #  - DOCKER_MODS=linuxserver/mods:jellyfin-opencl-intel # Disable if using NVIDIA
+      - DOCKER_HOST= tcp://socket-proxy:2375
+      - /dev/shm:/data/transcode # Offload transcoding to RAM if you have enough RAM
+    volumes:
+      - /data/media:/data/media
+      - /docker/appdata/jellyfin:/config
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    networks:
+      - newt # Port 8096
