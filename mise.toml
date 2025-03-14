@@ -1,6 +1,6 @@
 [env]
 ROOT_DIR = "{{config_root}}"
-NETWORK_DIR = "{{config_root}}/active/network"
+
 
 file = ".env"
 
