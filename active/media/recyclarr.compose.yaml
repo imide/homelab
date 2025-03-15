@@ -7,4 +7,4 @@ services:
     read_only: true
     tmpfs: /tmp
     networks:
-      - newt # port idk...
+      - newt # no port
