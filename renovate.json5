@@ -12,9 +12,6 @@
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
   "schedule": ["every weekend"],
-  "fileMatch": [
-    "^.*/.*compose.*\.yaml$"
-  ],
   "ignorePaths": ["disabled/**"],
   "packageRules": [
     {

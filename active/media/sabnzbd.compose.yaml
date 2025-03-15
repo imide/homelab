@@ -11,6 +11,7 @@ services:
       - /docker/appdata/sabnzbd:/config
       - /data/usenet:/data/usenet:rw
       - /etc/localtime:/etc/localtime:ro
+    # !! TODO: when installed on actual server, do this
     networks:
       - newt # port 8080
     restart: unless-stopped
