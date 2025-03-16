@@ -90,7 +90,7 @@
     },
     {
       "matchDatasources": ["docker"],
-      "matchPackageNames": [lscr.io/linuxserver/**"],
+      "matchPackageNames": ["lscr.io/linuxserver/**"],
       "versioning": "regex:/^((?<compatibility>(amd64|arm64v8|arm32v7)?)-)?(?<major>v?\d+)\.(?<minor>\d+)\.(?<patch>\d+)([\.\-](r|ls)?(?<build>\d+))(-ls(?<revision>\d+))?$"
     },
   ]
