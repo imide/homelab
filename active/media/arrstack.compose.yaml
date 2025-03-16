@@ -51,7 +51,7 @@ services:
       - newt # port 6767
 
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:1.31.2
+    image: lscr.io/linuxserver/prowlarr:1.32.2
     container_name: prowlarr
     environment:
       - PUID=1000
