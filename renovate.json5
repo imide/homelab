@@ -13,6 +13,9 @@
   "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
   "schedule": ["every weekend"],
   "ignorePaths": ["disabled/**"],
+  "fileMatch": [
+    "^.*.*compose.*.yaml$"
+  ],
   "packageRules": [
     {
       "description": ["Auto-merge GitHub Actions for minor and patch"],
