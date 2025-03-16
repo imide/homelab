@@ -1,6 +1,6 @@
 services:
   jellyfin:
-    image: lscr.io/linuxserver/jellyfin:10.10.6
+    image: lscr.io/linuxserver/jellyfin:2021.12.16
     container_name: jellyfin
     runtime: ${RUNTIME} # Enable if using NVIDIA. Follow https://github.com/linuxserver/docker-jellyfin#nvidia before running.
     devices:
