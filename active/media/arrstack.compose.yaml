@@ -62,3 +62,14 @@ services:
       - newt # port 9696
     volumes:
       - /docker/appdata/prowlarr:/config
+  notifiarr:
+    container_name: notifiarr
+    hostname: notifiarr
+    image: ghcr.io/notifiarr/notifiarr:v0.8.3
+    restart: unless-stopped
+    volumes:
+      - /docker/appdata/notifiarr:/config
+      - /var/run/utmp:/var/run/utmp
+      - /etc/machine-id:/etc/machine-id
+    networks:
+      - newt # port 5454
