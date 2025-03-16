@@ -13,9 +13,11 @@
   "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
   "schedule": ["every weekend"],
   "ignorePaths": ["disabled/**"],
-  "fileMatch": [
+  "docker-compose": {
+      "fileMatch": [
     "^.*.*compose.*.yaml$"
-  ],
+    ]
+  },
   "packageRules": [
     {
       "description": ["Auto-merge GitHub Actions for minor and patch"],
