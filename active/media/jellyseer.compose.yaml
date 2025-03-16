@@ -7,7 +7,7 @@ services:
       - LOG_LEVEL=info
       - TZ=${TIMEZONE}
     volumes:
-      - ${ROOT_DIR}/config/jellyseer:/app/config
+      - /docker/appdata/jellyseer:/app/config
     restart: unless-stopped
     networks:
       - newt # Port 5055
