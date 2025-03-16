@@ -2,10 +2,10 @@ services:
   recyclarr:
     image: ghcr.io/recyclarr/recyclarr:7.4
     container_name: recyclarr
-    security_opt: ['no-new-privileges:true']
-    user: 1000:1000
-    read_only: true
-    tmpfs: /tmp
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TIMEZONE}
     volumes:
       - /docker/appdata/recyclarr:/config
     networks:
