@@ -1,7 +1,7 @@
 ---
 services:
   jellyseerr:
-    image: ghcr.io/fallenbagel/jellyseerr:2.5.0
+    image: ghcr.io/fallenbagel/jellyseerr:2.5.1
     container_name: jellyseerr
     environment:
       - LOG_LEVEL=info
