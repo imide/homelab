@@ -2,9 +2,9 @@
 ROOT_DIR = "{{config_root}}"
 
 
-file = ".env"
+_.file = ".env"
 
 [tools]
-"aqua:go-task/task" = "3.42.0"
+"aqua:go-task/task" = "3.42.1"
 "aqua:cloudflare/cloudflared" = "2025.2.1"
 "aqua:jqlang/jq" = "1.7.1"
