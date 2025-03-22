@@ -7,4 +7,4 @@ theme:
   custom-css-file: /assets/user.css
 
 pages:
-  !include: home.yaml
+  !include: home.yml
