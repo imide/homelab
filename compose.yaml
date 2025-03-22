@@ -2,7 +2,7 @@ include:
   - $ROOT_DIR/active/network/newt.compose.yaml
   - $ROOT_DIR/active/network/whoami.compose.yaml
 
-  - $ROOT_DIR/active/homarr.compose.yaml
+  - $ROOT_DIR/active/home/glance.compose.yaml
 
   - $ROOT_DIR/active/media/arrstack.compose.yaml
   - $ROOT_DIR/active/media/jellyfin.compose.yaml

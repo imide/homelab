@@ -1,0 +1,10 @@
+# yaml-language-server
+
+server:
+  assets-path: /app/assets
+
+theme:
+  custom-css-file: /assets/user.css
+
+pages:
+  !include: home.yaml
