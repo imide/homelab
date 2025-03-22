@@ -10,5 +10,6 @@ services:
     environment:
      - DOCKER_HOST=tcp://socket-proxy:2375
      - SECRET_TOKEN=${SECRET_KEY}
+     - SECRET_DOMAIN=${SECRET_DOMAIN}
     networks:
       - newt # port 8080
