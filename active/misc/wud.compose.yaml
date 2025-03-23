@@ -16,8 +16,8 @@ services:
       - 'wud.link.template=https://github.com/getwud/wud/releases/tag/$${major}.$${minor}.$${patch}'
     environment:
       - DOCKER_HOST=tcp://socket-proxy:2375
-      - WUD_REGISTRY_LSCR_PRIVATE_USERNAME=${GITHUB_USER}
-      - WUD_REGISTRY_LSCR_PRIVATE_TOKEN=${GITHUB_TOKEN}
+      - WUD_REGISTRY_LSCR_PRIVATE_USERNAME=${WUD_GITHUB_USER}
+      - WUD_REGISTRY_LSCR_PRIVATE_TOKEN=${WUD_GITHUB_TOKEN}
     networks:
       - newt # port 3000
       - docker-proxynet
