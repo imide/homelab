@@ -13,6 +13,7 @@ include:
   - $ROOT_DIR/active/security/socket-proxy.compose.yaml
   - $ROOT_DIR/active/security/dozzle.compose.yaml
 
+  - $ROOT_DIR/active/misc/wud.compose.yaml
 
 networks:
   newt:
