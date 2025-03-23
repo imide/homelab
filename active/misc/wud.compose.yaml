@@ -1,4 +1,5 @@
-  whatsupdocker:
+services:  
+  wud:
     image: getwud/wud:8.0.1
     container_name: wud
     volumes:
