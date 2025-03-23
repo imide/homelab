@@ -1,0 +1,20 @@
+  whatsupdocker:
+    image: getwud/wud:8.0.1
+    container_name: wud
+    volumes:
+   #   - /var/run/docker.sock:/var/run/docker.sock # Use socket proxy instead
+      - /opt/wud/store:/store
+    healthcheck:
+      test: curl --fail http://localhost:${WUD_SERVER_PORT:-3000}/health || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 10s       
+    labels:
+      - 'wud.tag.include=^\d+\.\d+\.\d+$$'
+      - 'wud.link.template=https://github.com/getwud/wud/releases/tag/$${major}.$${minor}.$${patch}'
+    environment:
+      - DOCKER_HOST=tcp://socket-proxy:2375
+    networks:
+      - newt # port 3000
+      - docker-proxynet
